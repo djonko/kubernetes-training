@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: log-service
+spec:
+  selector:
+    matchLabels:
+      name: daemon-set-logging
+  template:
+    metadata:
+      labels:
+        name: daemon-set-logging
+    spec:
+      containers:
+        - name: webserver
+          image: httpd
+          ports:
+            - containerPort: 80
