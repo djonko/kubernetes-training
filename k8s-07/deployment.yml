@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-dep-chef
+  labels:
+    app: chef
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp-pod-chef
+  template:
+    metadata:
+      labels:
+        app: myapp-pod-chef
+    spec:
+      containers:
+        - name: chef-server
+          image: 'alasconnect/chef-testing:4.9.7'
+          ports:
+            - containerPort: 8080
+          command:
+            - /bin/sh
+          args:
+            - '-c'
+            - echo hello from chef container; sleep 3600
+        - name: ubuntu
+          image: 'ubuntu:18.04'
+          ports:
+            - containerPort: 8080
+          command:
+            - /bin/sh
+          args:
+            - '-c'
+            - echo hello from ubuntu container; sleep 3600
