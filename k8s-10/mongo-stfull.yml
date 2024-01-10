@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  namespace: dev
+  name: mongodb-dev
+spec:
+  selector:
+    matchLabels:
+      app: mongodb-dev
+  serviceName: mongodb-dev
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: mongodb-dev
+        selector: mongodb-dev
+    spec:
+      containers:
+        - name: mongodb-dev
+          image: mongo:4.0.17
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - mountPath: /data/db
+              name: pvc-mongo
+  volumeClaimTemplates:
+    - metadata:
+        name: pvc-mongo
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

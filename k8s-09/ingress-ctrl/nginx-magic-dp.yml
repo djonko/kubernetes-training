@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magicalnginx-deployment
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: magical-nginx
+  template:
+    metadata:
+      labels:
+        app: magical-nginx
+    spec:
+      containers:
+        - name: magical-nginx
+          image: 'anshuldevops/magicalnginx:latest'
+          ports:
+            - name: nginx-port
+              containerPort: 3000
